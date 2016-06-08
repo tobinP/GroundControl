@@ -31,12 +31,16 @@ public class GroundController : MonoBehaviour
 
         socket = go.GetComponent<SocketIOComponent>();
 
-        socket.On("open", TestOpen);
-        socket.On("nodeToUnity", TestBoop);
-        socket.On("error", TestError);
-        socket.On("close", TestClose);
+		if (androidEnabled) 
+		{
+			socket.On("open", TestOpen);
+			socket.On("nodeToUnity", TestBoop);
+			socket.On("error", TestError);
+			socket.On("close", TestClose);
 
-        //StartCoroutine("BeepBoop");
+			//StartCoroutine("BeepBoop");
+		}
+
 
     }
 
@@ -52,13 +56,13 @@ public class GroundController : MonoBehaviour
 
     void FixedUpdate()
     {
-        socket.Emit("unityData");
         float moveHorizontal;
         float moveVertical;
 
 
         if (isOnPlatform && androidEnabled)
         {
+			socket.Emit("unityData");
             //transform.Rotate(0, 0.0f, x);
 
             //Debug.Log("x: " + x);
